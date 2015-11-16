@@ -41,8 +41,9 @@
             expandBtnHTML   : '<button data-action="expand" type="button">Expand</button>',
             collapseBtnHTML : '<button data-action="collapse" type="button">Collapse</button>',
             group           : 0,
-            maxDepth        : 5,
-            threshold       : 20
+            maxDepth        : 999999,
+            threshold       : 20,
+            enableLocking  : true
         };
 
     function Plugin(element, options)
@@ -87,6 +88,11 @@
             var onStartEvent = function(e)
             {
                 var handle = $(e.target);
+                
+                if (list.options.enableLocking && handle.hasClass('dd-handle-locked')) {
+                    return;
+                }
+                
                 if (!handle.hasClass(list.options.handleClass)) {
                     if (handle.closest('.' + list.options.noDragClass).length) {
                         return;
